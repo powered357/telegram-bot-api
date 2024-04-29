@@ -409,6 +409,7 @@ type PhotoConfig struct {
 	Caption         string
 	ParseMode       string
 	CaptionEntities []MessageEntity
+	ProtectContent  bool
 }
 
 func (config PhotoConfig) params() (Params, error) {
@@ -419,6 +420,7 @@ func (config PhotoConfig) params() (Params, error) {
 
 	params.AddNonEmpty("caption", config.Caption)
 	params.AddNonEmpty("parse_mode", config.ParseMode)
+	params.AddBool("protect_content", config.ProtectContent)
 	err = params.AddInterface("caption_entities", config.CaptionEntities)
 
 	return params, err
