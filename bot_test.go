@@ -1068,3 +1068,15 @@ func TestSendInvoice(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestSendWithMessageWithoutGetMe(t *testing.T) {
+	bot := NewBotAPIWithoutGetMe(TestToken)
+
+	msg := NewMessage(ChatID, "A test message from the test library in telegram-bot-api")
+	msg.ParseMode = ModeMarkdown
+	_, err := bot.Send(msg)
+
+	if err != nil {
+		t.Error(err)
+	}
+}

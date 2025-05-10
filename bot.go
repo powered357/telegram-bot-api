@@ -71,6 +71,27 @@ func NewBotAPIWithClient(token, apiEndpoint string, client HTTPClient) (*BotAPI,
 	return bot, nil
 }
 
+// NewBotAPIWithoutGetMe создает новый экземпляр BotAPI без вызова GetMe()
+func NewBotAPIWithoutGetMe(token string) *BotAPI {
+	return NewBotAPIWithClientWithoutGetMe(token, APIEndpoint, &http.Client{})
+}
+
+// NewBotAPIWithAPIEndpointWithoutGetMe позволяет указать API endpoint и не вызывает GetMe()
+func NewBotAPIWithAPIEndpointWithoutGetMe(token, apiEndpoint string) *BotAPI {
+	return NewBotAPIWithClientWithoutGetMe(token, apiEndpoint, &http.Client{})
+}
+
+// NewBotAPIWithClientWithoutGetMe позволяет указать http.Client и не вызывает GetMe()
+func NewBotAPIWithClientWithoutGetMe(token, apiEndpoint string, client HTTPClient) *BotAPI {
+	return &BotAPI{
+		Token:           token,
+		Client:          client,
+		Buffer:          100,
+		shutdownChannel: make(chan interface{}),
+		apiEndpoint:     apiEndpoint,
+	}
+}
+
 // SetAPIEndpoint changes the Telegram Bot API endpoint used by the instance.
 func (bot *BotAPI) SetAPIEndpoint(apiEndpoint string) {
 	bot.apiEndpoint = apiEndpoint
