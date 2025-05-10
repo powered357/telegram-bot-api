@@ -1757,14 +1757,16 @@ func (config InvoiceConfig) params() (Params, error) {
 	params["title"] = config.Title
 	params["description"] = config.Description
 	params["payload"] = config.Payload
-	params["provider_token"] = config.ProviderToken
+	params.AddNonEmpty("provider_token", config.ProviderToken)
 	params["currency"] = config.Currency
 	if err = params.AddInterface("prices", config.Prices); err != nil {
 		return params, err
 	}
 
 	params.AddNonZero("max_tip_amount", config.MaxTipAmount)
-	err = params.AddInterface("suggested_tip_amounts", config.SuggestedTipAmounts)
+	if len(config.SuggestedTipAmounts) > 0 {
+		err = params.AddInterface("suggested_tip_amounts", config.SuggestedTipAmounts)
+	}
 	params.AddNonEmpty("start_parameter", config.StartParameter)
 	params.AddNonEmpty("provider_data", config.ProviderData)
 	params.AddNonEmpty("photo_url", config.PhotoURL)

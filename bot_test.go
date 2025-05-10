@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	TestToken               = "153667468:AAHlSHlMqSt1f_uFmVRJbm5gntu2HI4WW8I"
-	ChatID                  = 76918703
+	TestToken               = "6444133461:AAGrrpWCq2iEjbUyDOwfwT2VX2B27ZIJSlc"
+	ChatID                  = 461234617
 	Channel                 = "@tgbotapitest"
 	SupergroupChatID        = -1001120141283
 	ReplyToMessageID        = 35
@@ -1046,5 +1046,25 @@ func TestPrepareInputMediaForParams(t *testing.T) {
 
 	if prepared[1].(InputMediaVideo).Media != FileID("test") {
 		t.Error("Passthrough value was not the same")
+	}
+}
+
+func TestSendInvoice(t *testing.T) {
+	bot, _ := getBot(t)
+
+	msg := NewInvoice(
+		ChatID,
+		"Покупка монет",
+		"Купите Telegram Stars для использования в приложении",
+		"stars_purchase",
+		"",
+		"",
+		"XTR",
+		[]LabeledPrice{{Label: "Stars", Amount: 1}},
+	)
+	_, err := bot.Send(msg)
+
+	if err != nil {
+		t.Error(err)
 	}
 }
